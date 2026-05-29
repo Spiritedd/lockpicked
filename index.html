@@ -98,3 +98,436 @@
       font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 10px 24px rgba(36, 38, 34, 0.12);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(36, 38, 34, 0.15);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent-dark);
+      border-color: rgba(132, 176, 103, 0.62);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(132, 176, 103, 0.1);
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .btn-green {
+      background: var(--accent);
+      color: #172014;
+      box-shadow: 0 14px 30px rgba(132, 176, 103, 0.28);
+    }
+
+    .btn-green:hover {
+      background: #78a75c;
+      box-shadow: 0 18px 34px rgba(132, 176, 103, 0.34);
+    }
+
+    .hero {
+      padding: 104px 0 72px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(3rem, 7vw, 6.3rem);
+      line-height: 0.95;
+      font-weight: 780;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .hero p {
+      max-width: 660px;
+      margin: 28px auto 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2vw, 1.24rem);
+    }
+
+    .search-panel {
+      max-width: 830px;
+      margin: 48px auto 0;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .search-panel input {
+      width: 100%;
+      min-width: 0;
+      height: 58px;
+      padding: 0 22px;
+      border: 0;
+      outline: 0;
+      border-radius: 20px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      font-size: 1rem;
+    }
+
+    .search-panel input::placeholder {
+      color: #9a9f96;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding: 28px 0 80px;
+    }
+
+    .stat {
+      min-height: 112px;
+      padding: 26px 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.96rem;
+      font-weight: 560;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-heading p {
+      max-width: 390px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding-bottom: 96px;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      min-height: 280px;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--card);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 36px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.28rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .score {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(132, 176, 103, 0.32);
+      border-radius: 999px;
+      background: rgba(132, 176, 103, 0.12);
+      color: #496c34;
+      font-size: 0.86rem;
+      font-weight: 760;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .card a {
+      margin-top: auto;
+      color: var(--accent-dark);
+      font-weight: 760;
+      width: fit-content;
+    }
+
+    .cta {
+      margin: 0 0 48px;
+      padding: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      border: 1px solid var(--line);
+      border-radius: 32px;
+      background: #ffffff;
+      box-shadow: var(--shadow);
+    }
+
+    .cta h2 {
+      max-width: 620px;
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    footer {
+      padding: 0 0 34px;
+      color: #8b9088;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 880px) {
+      .navbar {
+        align-items: flex-start;
+      }
+
+      .nav-right {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 16px;
+      }
+
+      .nav-links {
+        gap: 16px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      .stats,
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading,
+      .cta {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 22px;
+        padding: 22px 0;
+      }
+
+      .nav-right,
+      .nav-links {
+        width: 100%;
+        align-items: stretch;
+        justify-content: flex-start;
+      }
+
+      .nav-links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-right .btn {
+        width: 100%;
+      }
+
+      .hero {
+        padding: 58px 0 54px;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.7rem, 15vw, 4.4rem);
+      }
+
+      .search-panel {
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 24px;
+      }
+
+      .search-panel input {
+        height: 56px;
+        text-align: center;
+      }
+
+      .search-panel .btn,
+      .hero-actions .btn,
+      .cta .btn {
+        width: 100%;
+      }
+
+      .stats {
+        padding-bottom: 58px;
+      }
+
+      .cards {
+        padding-bottom: 64px;
+      }
+
+      .card-top {
+        flex-direction: column;
+        margin-bottom: 28px;
+      }
+
+      .cta {
+        padding: 34px 24px;
+        border-radius: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="navbar" aria-label="Primary navigation">
+      <a class="logo" href="#">Lockpicked<span>.org</span></a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#">Browse</a>
+          <a href="#">Reviews</a>
+          <a href="#">Contributors</a>
+          <a href="#">About</a>
+        </div>
+        <a class="btn btn-outline" href="#">Submit a Lock</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <h1>Know how secure your lock really is.</h1>
+      <p>A public database for comparing lock quality, security ratings, and expert-reviewed hardware.</p>
+
+      <form class="search-panel" action="#" method="get">
+        <input aria-label="Search locks" type="search" placeholder="Search a lock model, brand, or category…">
+        <button class="btn btn-green" type="submit">Search Locks</button>
+      </form>
+
+      <div class="hero-actions">
+        <a class="btn btn-outline" href="#">Become a Reviewer</a>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Database statistics">
+      <div class="stat">
+        <strong>1,200+</strong>
+        <span>Locks Indexed</span>
+      </div>
+      <div class="stat">
+        <strong>300+</strong>
+        <span>Community Ratings</span>
+      </div>
+      <div class="stat">
+        <strong>Verified</strong>
+        <span>Expert Reviews</span>
+      </div>
+    </section>
+
+    <section aria-labelledby="featured-title">
+      <div class="section-heading">
+        <h2 id="featured-title">Featured reviews</h2>
+        <p>Clear, comparable snapshots from a growing public security index.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="card-top">
+            <h3>ABUS 83/45</h3>
+            <span class="score">Security Score 8.9</span>
+          </div>
+          <p>Security Score 8.9. A robust interchangeable-core padlock with strong materials and dependable field performance.</p>
+          <a href="#">View Review</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <h3>Yale Platinum</h3>
+            <span class="score">Security Score 7.7</span>
+          </div>
+          <p>Security Score 7.7. A polished residential option balancing everyday usability with solid protection standards.</p>
+          <a href="#">View Review</a>
+        </article>
+
+        <article class="card">
+          <div class="card-top">
+            <h3>Master Lock 140</h3>
+            <span class="score">Security Score 4.2</span>
+          </div>
+          <p>Security Score 4.2. A common lightweight padlock best suited for low-risk storage and basic deterrence.</p>
+          <a href="#">View Review</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Help build the public lock security index.</h2>
+      <a class="btn btn-green" href="#">Submit a Lock</a>
+    </section>
+  </main>
+
+  <footer>
+    Lockpicked.org
+  </footer>
+</body>
+</html>
