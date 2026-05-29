@@ -10,7 +10,6 @@
       --text: #242622;
       --muted: #70756d;
       --line: #e6e7e1;
-      --soft: #f1f2ee;
       --card: #ffffff;
       --accent: #84b067;
       --accent-dark: #5f8846;
@@ -20,6 +19,10 @@
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -32,9 +35,27 @@
       letter-spacing: 0;
     }
 
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    body.is-loading .typed,
+    body.is-loading .pcb-trace,
+    body.is-loading .pcb-node,
+    body.is-loading .lock-glow,
+    body.is-loading .lock-fill,
+    body.is-loading .lock-line {
+      animation-play-state: paused;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
     }
 
     .page {
@@ -42,19 +63,70 @@
       margin: 0 auto;
     }
 
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      transition: opacity 360ms ease, visibility 360ms ease;
+    }
+
+    .loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-brand {
+      display: inline-flex;
+      align-items: baseline;
+      color: var(--text);
+      font-size: clamp(2.1rem, 8vw, 5rem);
+      font-weight: 830;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .loader-written {
+      display: inline-block;
+      width: 0;
+      padding: 0.08em 0.1em 0.18em;
+      margin: -0.08em -0.1em -0.18em;
+      overflow: hidden;
+      white-space: nowrap;
+      animation: writeBrand 1000ms steps(14, end) forwards;
+    }
+
+    .loader-dotorg {
+      display: inline-block;
+      color: var(--accent);
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(36, 38, 34, 0.1);
+      background: rgba(250, 250, 248, 0.9);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 8px 28px rgba(36, 38, 34, 0.035);
+    }
+
     .navbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 28px;
-      padding: 28px 0;
+      padding: 18px 0;
     }
 
     .logo {
       flex: 0 0 auto;
-      font-size: 1.38rem;
-      font-weight: 760;
-      letter-spacing: -0.01em;
+      font-size: 1.5rem;
+      font-weight: 820;
+      letter-spacing: 0;
       color: var(--text);
     }
 
@@ -65,30 +137,126 @@
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 30px;
+      gap: 22px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 26px;
+      gap: 24px;
       color: var(--muted);
-      font-size: 0.95rem;
-      font-weight: 560;
+      font-size: 0.94rem;
+      font-weight: 570;
     }
 
-    .nav-links a {
-      transition: color 180ms ease;
+    .nav-links a,
+    .auth-button,
+    .language {
+      transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
     }
 
-    .nav-links a:hover {
+    .nav-links a:hover,
+    .auth-button:hover {
       color: var(--text);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .utility-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 14px;
+      border-right: 1px solid rgba(36, 38, 34, 0.12);
+    }
+
+    .primary-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auth-button,
+    .language {
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .language {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .language:hover {
+      border-color: rgba(132, 176, 103, 0.65);
+      color: var(--text);
+    }
+
+    .flag-us {
+      position: relative;
+      width: 19px;
+      height: 13px;
+      overflow: hidden;
+      border-radius: 3px;
+      border: 1px solid rgba(36, 38, 34, 0.16);
+      background:
+        linear-gradient(
+          to bottom,
+          #b94a48 0 14.28%,
+          #ffffff 14.28% 28.56%,
+          #b94a48 28.56% 42.84%,
+          #ffffff 42.84% 57.12%,
+          #b94a48 57.12% 71.4%,
+          #ffffff 71.4% 85.68%,
+          #b94a48 85.68% 100%
+        );
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+    }
+
+    .flag-us::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 8px;
+      height: 7px;
+      background: #40577f;
+    }
+
+    .auth-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid rgba(36, 38, 34, 0.12);
+      border-radius: 999px;
+      background: rgba(36, 38, 34, 0.045);
+      color: var(--text);
+    }
+
+    .auth-button:hover {
+      background: rgba(36, 38, 34, 0.075);
+      border-color: rgba(36, 38, 34, 0.2);
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
       min-height: 48px;
       padding: 0 22px;
       border: 1px solid transparent;
@@ -96,16 +264,30 @@
       background: var(--text);
       color: #ffffff;
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 730;
       cursor: pointer;
       box-shadow: 0 10px 24px rgba(36, 38, 34, 0.12);
-      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease;
+      transition: transform 220ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
       white-space: nowrap;
     }
 
+    .btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 28px rgba(36, 38, 34, 0.15);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 16px 30px rgba(36, 38, 34, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0) scale(0.985);
     }
 
     .btn-outline {
@@ -133,52 +315,194 @@
     }
 
     .hero {
-      padding: 104px 0 72px;
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0 78px;
       text-align: center;
+      border-bottom: 1px solid rgba(36, 38, 34, 0.06);
+    }
+
+    .hero::before,
+    .stats::before,
+    .featured::before,
+    .cta::before {
+      content: "LOCKPICKED";
+      position: absolute;
+      z-index: 0;
+      right: -18px;
+      bottom: 4px;
+      color: var(--text);
+      font-size: clamp(4rem, 11vw, 9rem);
+      font-weight: 860;
+      line-height: 1;
+      opacity: 0.025;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .hero > :not(.hero-visual) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      transition:
+        opacity 900ms ease,
+        transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        filter 900ms ease;
+      will-change: opacity, transform;
+    }
+
+    .hero-content.is-unloading {
+      opacity: 0.18;
+      transform: translateY(-22px) scale(0.986);
+      filter: blur(0.4px);
+    }
+
+    .hero-visual {
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      z-index: 1;
+      width: min(620px, 74vw);
+      height: 426px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      color: #7f9297;
+      opacity: 0.62;
+      mask-image: radial-gradient(ellipse at center, #000 0 58%, transparent 82%);
+    }
+
+    .hero-visual svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .pcb-trace {
+      stroke: currentColor;
+      stroke-width: 0.82;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 720;
+      stroke-dashoffset: 720;
+      opacity: 0.5;
+      animation: drawTrace 2200ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      animation-delay: var(--trace-delay, 120ms);
+    }
+
+    .pcb-trace-soft {
+      stroke-width: 0.58;
+      opacity: 0.28;
+      stroke-dasharray: 460;
+      stroke-dashoffset: 460;
+    }
+
+    .pcb-node {
+      fill: #FAFAF8;
+      stroke: currentColor;
+      stroke-width: 0.9;
+      opacity: 0;
+      animation: nodeIn 1050ms ease forwards;
+      animation-delay: var(--node-delay, 900ms);
+    }
+
+    .pcb-micro-node {
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .lock-glow,
+    .lock-fill,
+    .lock-line {
+      opacity: 0;
+      transform-origin: center;
+      animation: lockIn 1400ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      animation-delay: 760ms;
+    }
+
+    .lock-glow {
+      fill: rgba(127, 146, 151, 0.1);
+      animation-delay: 620ms;
+    }
+
+    .lock-fill {
+      fill: rgba(250, 250, 248, 0.9);
+      stroke: rgba(127, 146, 151, 0.34);
+      stroke-width: 1.2;
+    }
+
+    .lock-line {
+      fill: none;
+      stroke: rgba(78, 93, 96, 0.42);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      margin: 0 auto 24px;
+      padding: 0 14px;
+      border: 1px solid rgba(132, 176, 103, 0.3);
+      border-radius: 999px;
+      background: rgba(132, 176, 103, 0.08);
+      color: var(--accent-dark);
+      font-size: 0.84rem;
+      font-weight: 760;
     }
 
     .hero h1 {
       max-width: 850px;
       margin: 0 auto;
-      font-size: clamp(3rem, 7vw, 6.3rem);
-      line-height: 0.95;
-      font-weight: 780;
+      font-size: clamp(3rem, 7vw, 6.25rem);
+      line-height: 0.96;
+      font-weight: 810;
       letter-spacing: 0;
       color: var(--text);
     }
 
     .hero p {
-      max-width: 660px;
+      max-width: 680px;
       margin: 28px auto 0;
       color: var(--muted);
       font-size: clamp(1.05rem, 2vw, 1.24rem);
     }
 
+    .typed {
+      border-right: 2px solid var(--accent);
+      padding-right: 4px;
+      animation: cursorBlink 1150ms steps(1) infinite;
+    }
+
     .search-panel {
-      max-width: 830px;
-      margin: 48px auto 0;
-      padding: 10px;
+      max-width: 920px;
+      margin: 44px auto 0;
+      padding: 12px;
       display: flex;
       align-items: center;
       gap: 10px;
       border: 1px solid var(--line);
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.86);
-      box-shadow: var(--shadow);
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 24px 70px rgba(36, 38, 34, 0.11);
     }
 
     .search-panel input {
       width: 100%;
       min-width: 0;
-      height: 58px;
-      padding: 0 22px;
+      height: 66px;
+      padding: 0 24px;
       border: 0;
       outline: 0;
       border-radius: 20px;
       background: transparent;
       color: var(--text);
-      font: inherit;
-      font-size: 1rem;
+      font-size: 1.08rem;
     }
 
     .search-panel input::placeholder {
@@ -194,35 +518,396 @@
       flex-wrap: wrap;
     }
 
-    .stats {
+    .category-chips {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 18px auto 0;
+      flex-wrap: wrap;
+    }
+
+    .category-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid rgba(36, 38, 34, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.56);
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 690;
+      box-shadow: 0 8px 20px rgba(36, 38, 34, 0.035);
+      transition: transform 180ms ease, color 180ms ease, border-color 180ms ease, background 180ms ease;
+    }
+
+    .category-chip:hover {
+      transform: translateY(-2px);
+      border-color: rgba(132, 176, 103, 0.42);
+      background: rgba(132, 176, 103, 0.09);
+      color: var(--text);
+    }
+
+    .brand-note {
+      margin-top: 22px;
+      color: #8a9086;
+      font-size: 0.92rem;
+    }
+
+    .brand-note strong {
+      color: var(--text);
+      font-weight: 760;
+    }
+
+    .hero-data-strip {
+      max-width: 760px;
+      margin: 34px auto 0;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .data-chip {
+      min-height: 58px;
+      padding: 12px 14px;
+      border: 1px solid rgba(127, 146, 151, 0.18);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.52);
+      text-align: left;
+      box-shadow: 0 10px 24px rgba(36, 38, 34, 0.04);
+    }
+
+    .data-chip span {
+      display: block;
+      color: #8b9088;
+      font-size: 0.72rem;
+      font-weight: 720;
+      text-transform: uppercase;
+    }
+
+    .data-chip strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .stats {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 18px;
-      padding: 28px 0 80px;
+      padding: 58px 0 58px;
     }
 
     .stat {
-      min-height: 112px;
+      position: relative;
+      z-index: 1;
+      min-height: 126px;
       padding: 26px 28px;
       border: 1px solid var(--line);
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.64);
+      background: rgba(255, 255, 255, 0.66);
       box-shadow: var(--shadow-soft);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .stat:hover,
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(132, 176, 103, 0.34);
+      box-shadow: 0 18px 40px rgba(36, 38, 34, 0.1);
+    }
+
+    .card:hover .score {
+      box-shadow: 0 0 0 6px var(--score-glow), 0 14px 34px rgba(36, 38, 34, 0.1);
+      transform: scale(1.035);
+    }
+
+    .card:hover .lock-thumb svg {
+      transform: translateY(-3px) scale(1.025);
+    }
+
+    .stat-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 42px;
+      width: 42px;
+      height: 42px;
+      padding: 10px;
+      border: 1px solid rgba(132, 176, 103, 0.28);
+      border-radius: 14px;
+      background: rgba(132, 176, 103, 0.1);
+      color: var(--accent-dark);
+    }
+
+    .icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      stroke: currentColor;
+      stroke-width: 1.65;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .stat strong {
       display: block;
-      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      font-size: clamp(1.45rem, 2.4vw, 1.95rem);
       line-height: 1.1;
       color: var(--text);
     }
 
     .stat span {
       display: block;
-      margin-top: 8px;
+      margin-top: 12px;
       color: var(--muted);
       font-size: 0.96rem;
-      font-weight: 560;
+      font-weight: 570;
+    }
+
+    .score-method {
+      position: relative;
+      overflow: hidden;
+      margin: 28px 0 70px;
+      padding: 54px;
+      border-radius: 32px;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(132, 176, 103, 0.2), transparent 28%),
+        linear-gradient(135deg, #242622, #1d1f1c);
+      color: #f7f8f3;
+      box-shadow: 0 30px 80px rgba(36, 38, 34, 0.18);
+    }
+
+    .score-method::before {
+      content: "LOCKPICKED";
+      position: absolute;
+      right: -16px;
+      bottom: -18px;
+      color: #ffffff;
+      font-size: clamp(4rem, 12vw, 9rem);
+      font-weight: 860;
+      line-height: 1;
+      opacity: 0.035;
+      pointer-events: none;
+    }
+
+    .score-method::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      right: -110px;
+      top: -120px;
+      border-radius: 50%;
+      background: rgba(132, 176, 103, 0.13);
+      filter: blur(90px);
+      opacity: 0.5;
+      pointer-events: none;
+      animation: ambientPulse 6200ms ease-in-out infinite;
+    }
+
+    .score-method-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .score-method h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.02;
+    }
+
+    .score-method p {
+      margin: 18px 0 0;
+      max-width: 500px;
+      color: rgba(247, 248, 243, 0.7);
+      font-size: 1rem;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .method-card {
+      min-height: 128px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.055);
+    }
+
+    .method-card strong {
+      display: block;
+      color: #ffffff;
+      font-size: 1.05rem;
+    }
+
+    .method-meter {
+      position: relative;
+      height: 7px;
+      margin: 18px 0 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .method-meter::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--method-width);
+      border-radius: inherit;
+      background: var(--accent);
+      box-shadow: 0 0 22px rgba(132, 176, 103, 0.28);
+    }
+
+    .method-card span {
+      color: rgba(247, 248, 243, 0.62);
+      font-size: 0.86rem;
+    }
+
+    .activity-strip {
+      position: relative;
+      overflow: hidden;
+      margin: -32px 0 70px;
+      border: 1px solid rgba(36, 38, 34, 0.08);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .activity-track {
+      display: flex;
+      width: max-content;
+      animation: activityScroll 26s linear infinite;
+    }
+
+    .activity-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 0 24px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: nowrap;
+    }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 5px rgba(132, 176, 103, 0.1);
+    }
+
+    .activity-item strong {
+      color: var(--text);
+    }
+
+    .comparison-teaser {
+      position: relative;
+      overflow: hidden;
+      margin: -36px 0 46px;
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: center;
+      border: 1px solid rgba(36, 38, 34, 0.08);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.66);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .comparison-title {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 680;
+    }
+
+    .comparison-title strong {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .compare-lock {
+      min-height: 78px;
+      padding: 16px;
+      border: 1px solid rgba(127, 146, 151, 0.14);
+      border-radius: 18px;
+      background: rgba(250, 250, 248, 0.75);
+    }
+
+    .mini-lock {
+      float: right;
+      width: 48px;
+      height: 42px;
+      color: rgba(36, 38, 34, 0.54);
+    }
+
+    .mini-lock path,
+    .mini-lock rect {
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .compare-lock span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 720;
+      text-transform: uppercase;
+    }
+
+    .compare-lock strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .compare-lock small {
+      display: inline-flex;
+      margin-top: 8px;
+      color: var(--accent-dark);
+      font-weight: 760;
+    }
+
+    .vs {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--text);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 820;
+      box-shadow: 0 12px 28px rgba(36, 38, 34, 0.16);
     }
 
     .section-heading {
@@ -241,10 +926,21 @@
     }
 
     .section-heading p {
-      max-width: 390px;
+      max-width: 410px;
       margin: 0;
       color: var(--muted);
       font-size: 1rem;
+    }
+
+    .featured {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured > *,
+    .cta > * {
+      position: relative;
+      z-index: 1;
     }
 
     .cards {
@@ -257,12 +953,13 @@
     .card {
       display: flex;
       flex-direction: column;
-      min-height: 280px;
+      min-height: 370px;
       padding: 26px;
       border: 1px solid var(--line);
       border-radius: 26px;
       background: var(--card);
       box-shadow: var(--shadow-soft);
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
     }
 
     .card-top {
@@ -270,7 +967,129 @@
       justify-content: space-between;
       gap: 14px;
       align-items: flex-start;
-      margin-bottom: 36px;
+      margin-bottom: 34px;
+    }
+
+    .card-title {
+      display: grid;
+      gap: 9px;
+    }
+
+    .card-badge {
+      width: fit-content;
+      min-height: 26px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(132, 176, 103, 0.28);
+      border-radius: 999px;
+      background: rgba(132, 176, 103, 0.08);
+      color: var(--accent-dark);
+      font-size: 0.72rem;
+      font-weight: 780;
+    }
+
+    .lock-thumb {
+      position: relative;
+      height: 112px;
+      margin: -4px 0 24px;
+      overflow: hidden;
+      border: 1px solid rgba(127, 146, 151, 0.14);
+      border-radius: 20px;
+      background:
+        linear-gradient(90deg, rgba(127, 146, 151, 0.08) 1px, transparent 1px),
+        linear-gradient(rgba(127, 146, 151, 0.08) 1px, transparent 1px),
+        rgba(250, 250, 248, 0.72);
+      background-size: 22px 22px;
+    }
+
+    .lock-thumb::after {
+      content: "";
+      position: absolute;
+      inset: auto 18px 18px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(127, 146, 151, 0.5), transparent);
+    }
+
+    .lock-thumb svg {
+      position: absolute;
+      inset: 14px 0 0;
+      margin: auto;
+      width: 128px;
+      height: 86px;
+      color: rgba(36, 38, 34, 0.72);
+      transition: transform 320ms ease;
+    }
+
+    .lock-thumb path,
+    .lock-thumb rect,
+    .lock-thumb circle {
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .score-bar {
+      position: relative;
+      height: 6px;
+      margin: 18px 0 14px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(36, 38, 34, 0.08);
+    }
+
+    .score-bar::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: var(--score-width);
+      border-radius: inherit;
+      background: currentColor;
+      opacity: 0.72;
+      transform-origin: left;
+      animation: scoreGrow 1200ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    }
+
+    .reviewer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(36, 38, 34, 0.07);
+    }
+
+    .avatars {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      margin-left: -7px;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+      background: var(--avatar-bg);
+      color: rgba(36, 38, 34, 0.74);
+      font-size: 0.68rem;
+      font-weight: 820;
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .reviewer-row small {
+      color: #8b9088;
+      font-size: 0.78rem;
+      font-weight: 680;
     }
 
     .card h3 {
@@ -282,16 +1101,67 @@
 
     .score {
       flex: 0 0 auto;
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
-      border: 1px solid rgba(132, 176, 103, 0.32);
-      border-radius: 999px;
-      background: rgba(132, 176, 103, 0.12);
-      color: #496c34;
-      font-size: 0.86rem;
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, #ffffff 0 52%, transparent 53%),
+        conic-gradient(var(--score-text) var(--score-angle), rgba(36, 38, 34, 0.08) 0);
+      color: var(--score-text);
       font-weight: 760;
+      box-shadow: inset 0 0 0 1px rgba(36, 38, 34, 0.06);
+      transition: box-shadow 240ms ease, transform 240ms ease;
+    }
+
+    .score-value {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: var(--score-text);
+      font-size: 1.18rem;
+      line-height: 1;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .score-good {
+      --score-bg: rgba(132, 176, 103, 0.14);
+      --score-border: rgba(132, 176, 103, 0.38);
+      --score-text: #496c34;
+      --score-angle: 320deg;
+      --score-glow: rgba(132, 176, 103, 0.16);
+    }
+
+    .score-neutral {
+      --score-bg: rgba(221, 181, 83, 0.16);
+      --score-border: rgba(221, 181, 83, 0.42);
+      --score-text: #816329;
+      --score-angle: 277deg;
+      --score-glow: rgba(221, 181, 83, 0.16);
+    }
+
+    .score-bad {
+      --score-bg: rgba(203, 91, 78, 0.13);
+      --score-border: rgba(203, 91, 78, 0.36);
+      --score-text: #8f3e35;
+      --score-angle: 151deg;
+      --score-glow: rgba(203, 91, 78, 0.14);
     }
 
     .card p {
@@ -301,6 +1171,9 @@
     }
 
     .card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       margin-top: auto;
       color: var(--accent-dark);
       font-weight: 760;
@@ -308,8 +1181,10 @@
     }
 
     .cta {
+      position: relative;
+      overflow: hidden;
       margin: 0 0 48px;
-      padding: 56px;
+      padding: 58px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -320,22 +1195,139 @@
       box-shadow: var(--shadow);
     }
 
+    .cta-copy {
+      max-width: 670px;
+    }
+
     .cta h2 {
-      max-width: 620px;
       margin: 0;
-      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-size: clamp(2rem, 4vw, 3.45rem);
       line-height: 1.02;
       letter-spacing: 0;
     }
 
+    .cta p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
     footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
       padding: 0 0 34px;
       color: #8b9088;
       font-size: 0.92rem;
-      text-align: center;
     }
 
-    @media (max-width: 880px) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition:
+        opacity 820ms ease,
+        transform 820ms cubic-bezier(0.2, 0.7, 0.2, 1),
+        filter 820ms ease;
+      transition-delay: var(--delay, 0ms);
+      will-change: opacity, transform;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .reveal.is-unloading {
+      opacity: 0.28;
+      transform: translateY(-14px) scale(0.988);
+      filter: blur(0.2px);
+      transition-delay: 0ms;
+    }
+
+    @keyframes cursorBlink {
+      0%, 49% {
+        border-color: var(--accent);
+      }
+
+      50%, 100% {
+        border-color: transparent;
+      }
+    }
+
+    @keyframes writeBrand {
+      to {
+        width: 14.2ch;
+      }
+    }
+
+    @keyframes drawTrace {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes nodeIn {
+      to {
+        opacity: 0.48;
+      }
+    }
+
+    @keyframes lockIn {
+      from {
+        opacity: 0;
+        transform: scale(0.985);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fillPadlock {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: var(--fill);
+      }
+    }
+
+    @keyframes scoreGrow {
+      from {
+        transform: scaleX(0);
+      }
+
+      to {
+        transform: scaleX(1);
+      }
+    }
+
+    @keyframes activityScroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.42;
+      }
+
+      50% {
+        transform: translate3d(-18px, 18px, 0) scale(1.08);
+        opacity: 0.58;
+      }
+    }
+
+    @media (max-width: 1040px) {
       .navbar {
         align-items: flex-start;
       }
@@ -343,9 +1335,19 @@
       .nav-right {
         flex-direction: column;
         align-items: flex-end;
-        gap: 16px;
+        gap: 14px;
       }
 
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .score-method-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 880px) {
       .nav-links {
         gap: 16px;
         flex-wrap: wrap;
@@ -353,7 +1355,7 @@
       }
 
       .hero {
-        padding-top: 70px;
+        padding-top: 72px;
       }
 
       .stats,
@@ -362,28 +1364,39 @@
       }
 
       .section-heading,
-      .cta {
+      .cta,
+      footer {
         align-items: flex-start;
         flex-direction: column;
       }
+
+      .score-method {
+        padding: 38px 28px;
+      }
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 680px) {
       .page {
         width: min(100% - 28px, 1180px);
       }
 
       .navbar {
         flex-direction: column;
-        gap: 22px;
-        padding: 22px 0;
+        gap: 18px;
+        padding: 16px 0;
       }
 
       .nav-right,
-      .nav-links {
+      .nav-links,
+      .header-actions,
+      .utility-actions,
+      .primary-actions {
         width: 100%;
         align-items: stretch;
-        justify-content: flex-start;
+      }
+
+      .nav-right {
+        gap: 14px;
       }
 
       .nav-links {
@@ -391,16 +1404,47 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
-      .nav-right .btn {
+      .header-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .utility-actions,
+      .primary-actions {
+        padding-right: 0;
+        border-right: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .primary-actions .btn {
+        grid-column: 1 / -1;
         width: 100%;
       }
 
+      .auth-button,
+      .language {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+      }
+
       .hero {
-        padding: 58px 0 54px;
+        padding: 54px 0 54px;
+      }
+
+      .hero-visual {
+        top: 28px;
+        left: 50%;
+        width: 96vw;
+        height: 360px;
+        opacity: 0.46;
       }
 
       .hero h1 {
-        font-size: clamp(2.7rem, 15vw, 4.4rem);
+        font-size: clamp(2.65rem, 14.5vw, 4.25rem);
       }
 
       .search-panel {
@@ -421,7 +1465,23 @@
       }
 
       .stats {
-        padding-bottom: 58px;
+        padding: 44px 0 58px;
+      }
+
+      .hero-data-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .method-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .comparison-teaser {
+        grid-template-columns: 1fr;
+      }
+
+      .vs {
+        justify-self: center;
       }
 
       .cards {
@@ -438,11 +1498,73 @@
         border-radius: 26px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
+
+      .typed {
+        border-right: 0;
+        padding-right: 0;
+      }
+
+      body.is-loading {
+        overflow: auto;
+      }
+
+      .loader {
+        display: none;
+      }
+
+      .pcb-trace {
+        stroke-dashoffset: 0;
+      }
+
+      .pcb-node {
+        opacity: 0.35;
+      }
+
+      .lock-glow,
+      .lock-fill,
+      .lock-line {
+        opacity: 1;
+        transform: none;
+      }
+
+      .score-bar::before {
+        animation: none;
+      }
+
+      .activity-track {
+        animation: none;
+      }
+
+      .score-method::after {
+        animation: none;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
   </style>
 </head>
-<body>
-  <main class="page">
-    <nav class="navbar" aria-label="Primary navigation">
+<body class="is-loading">
+  <div class="loader" aria-label="Loading Lockpicked.org">
+    <div class="loader-brand" aria-hidden="true">
+      <span class="loader-written">Lockpicked<span class="loader-dotorg">.org</span></span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <nav class="navbar page" aria-label="Primary navigation">
       <a class="logo" href="#">Lockpicked<span>.org</span></a>
       <div class="nav-right">
         <div class="nav-links">
@@ -451,83 +1573,420 @@
           <a href="#">Contributors</a>
           <a href="#">About</a>
         </div>
-        <a class="btn btn-outline" href="#">Submit a Lock</a>
+        <div class="header-actions">
+          <div class="utility-actions">
+            <a class="language" href="#" aria-label="Language selector"><span class="flag-us" aria-hidden="true"></span> EN</a>
+            <a class="auth-button" href="#">Login / Signup</a>
+          </div>
+          <div class="primary-actions">
+            <a class="btn btn-outline" href="#">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+              Submit a Lock
+            </a>
+          </div>
+        </div>
       </div>
     </nav>
+  </header>
 
+  <main class="page">
     <section class="hero">
-      <h1>Know how secure your lock really is.</h1>
-      <p>A public database for comparing lock quality, security ratings, and expert-reviewed hardware.</p>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 720 430" role="img">
+          <path class="pcb-trace" style="--trace-delay: 120ms" d="M144 88h82c22 0 35 9 50 25l47 50"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 160ms" d="M188 118h52c18 0 28 7 40 19l42 42"></path>
+          <path class="pcb-trace" style="--trace-delay: 220ms" d="M576 86h-84c-24 0-37 10-54 27l-49 50"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 260ms" d="M535 118h-54c-17 0-28 7-40 20l-45 45"></path>
+          <path class="pcb-trace" style="--trace-delay: 340ms" d="M132 214h92c35 0 50-12 73-34l32-30"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 390ms" d="M183 247h65c30 0 44-10 64-29l24-23"></path>
+          <path class="pcb-trace" style="--trace-delay: 460ms" d="M588 216h-94c-35 0-51-12-74-36l-31-32"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 510ms" d="M539 249h-66c-30 0-43-10-64-31l-22-23"></path>
+          <path class="pcb-trace" style="--trace-delay: 580ms" d="M166 332h84c32 0 50-12 73-35l43-43"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 650ms" d="M214 304h45c25 0 39-9 57-27l30-30"></path>
+          <path class="pcb-trace" style="--trace-delay: 700ms" d="M554 334h-83c-32 0-49-12-72-36l-39-42"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 770ms" d="M507 303h-46c-25 0-38-9-56-28l-30-31"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 840ms" d="M284 82v45c0 17 8 27 21 39l21 19"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 910ms" d="M436 82v46c0 17-8 27-21 39l-22 20"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 980ms" d="M287 358v-42c0-17 8-29 20-41l28-28"></path>
+          <path class="pcb-trace pcb-trace-soft" style="--trace-delay: 1050ms" d="M433 358v-42c0-18-8-29-21-42l-28-28"></path>
 
-      <form class="search-panel" action="#" method="get">
-        <input aria-label="Search locks" type="search" placeholder="Search a lock model, brand, or category…">
-        <button class="btn btn-green" type="submit">Search Locks</button>
-      </form>
+          <circle class="pcb-node" style="--node-delay: 760ms" cx="144" cy="88" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 820ms" cx="188" cy="118" r="2.4"></circle>
+          <circle class="pcb-node" style="--node-delay: 860ms" cx="576" cy="86" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 920ms" cx="535" cy="118" r="2.4"></circle>
+          <circle class="pcb-node" style="--node-delay: 980ms" cx="132" cy="214" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1040ms" cx="183" cy="247" r="2.4"></circle>
+          <circle class="pcb-node" style="--node-delay: 1100ms" cx="588" cy="216" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1160ms" cx="539" cy="249" r="2.4"></circle>
+          <circle class="pcb-node" style="--node-delay: 1220ms" cx="166" cy="332" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1280ms" cx="214" cy="304" r="2.4"></circle>
+          <circle class="pcb-node" style="--node-delay: 1340ms" cx="554" cy="334" r="4.2"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1400ms" cx="507" cy="303" r="2.4"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1460ms" cx="284" cy="82" r="2.4"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1520ms" cx="436" cy="82" r="2.4"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1580ms" cx="287" cy="358" r="2.4"></circle>
+          <circle class="pcb-node pcb-micro-node" style="--node-delay: 1640ms" cx="433" cy="358" r="2.4"></circle>
 
-      <div class="hero-actions">
-        <a class="btn btn-outline" href="#">Become a Reviewer</a>
+          <ellipse class="lock-glow" cx="360" cy="220" rx="142" ry="134"></ellipse>
+          <path class="lock-fill" d="M281 196h158c14 0 25 11 25 25v104c0 14-11 25-25 25H281c-14 0-25-11-25-25V221c0-14 11-25 25-25Z"></path>
+          <path class="lock-fill" d="M304 196v-42c0-34 24-60 56-60s56 26 56 60v42h-30v-42c0-17-10-30-26-30s-26 13-26 30v42Z"></path>
+          <path class="lock-line" d="M334 196v-42c0-17 10-30 26-30s26 13 26 30v42"></path>
+          <path class="lock-line" d="M360 246v48"></path>
+          <circle class="lock-line" cx="360" cy="238" r="11"></circle>
+        </svg>
+      </div>
+      <div class="hero-content">
+        <div class="eyebrow">Lockpicked.org public security index</div>
+        <h1><span class="typed" data-text="Know how secure your lock really is.">Know how secure your lock really is.</span></h1>
+        <p>A public database for comparing lock quality, security ratings, and expert-reviewed hardware.</p>
+
+        <form class="search-panel reveal" style="--delay: 220ms" action="#" method="get">
+          <input aria-label="Search locks" type="search" placeholder="Search any lock, brand, or category...">
+          <button class="btn btn-green" type="submit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3"></path><circle cx="11" cy="11" r="7"></circle></svg>
+            Search Locks
+          </button>
+        </form>
+        <div class="category-chips reveal" style="--delay: 280ms" aria-label="Popular categories">
+          <a class="category-chip" href="#">Padlocks</a>
+          <a class="category-chip" href="#">Deadbolts</a>
+          <a class="category-chip" href="#">Smart Locks</a>
+          <a class="category-chip" href="#">Bike Locks</a>
+          <a class="category-chip" href="#">Door Hardware</a>
+        </div>
+
+        <div class="hero-actions reveal" style="--delay: 360ms">
+          <a class="btn btn-outline" href="#">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg>
+            Become a Reviewer
+          </a>
+        </div>
+        <p class="brand-note reveal" style="--delay: 440ms"><strong>Lockpicked.org</strong> keeps lock security information clear, comparable, and public.</p>
+        <div class="hero-data-strip reveal" style="--delay: 540ms" aria-label="Index snapshot">
+          <div class="data-chip"><span>Dataset</span><strong>Open index</strong></div>
+          <div class="data-chip"><span>Method</span><strong>Peer reviewed</strong></div>
+          <div class="data-chip"><span>Signals</span><strong>12 factors</strong></div>
+          <div class="data-chip"><span>Updates</span><strong>Weekly</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="score-method reveal" aria-labelledby="scoring-title">
+      <div class="score-method-inner">
+        <div>
+          <h2 id="scoring-title">How Lockpicked Scores Security</h2>
+          <p>Scores combine material quality, mechanism complexity, review confidence, and community signal into one comparable index.</p>
+        </div>
+        <div class="method-grid">
+          <div class="method-card">
+            <strong>Build Quality</strong>
+            <div class="method-meter" style="--method-width: 88%"></div>
+            <span>Materials, tolerances, and long-term durability.</span>
+          </div>
+          <div class="method-card">
+            <strong>Security Design</strong>
+            <div class="method-meter" style="--method-width: 76%"></div>
+            <span>Core design, resistance profile, and hardware class.</span>
+          </div>
+          <div class="method-card">
+            <strong>Review Confidence</strong>
+            <div class="method-meter" style="--method-width: 92%"></div>
+            <span>Expert coverage, evidence quality, and repeatability.</span>
+          </div>
+          <div class="method-card">
+            <strong>Community Signal</strong>
+            <div class="method-meter" style="--method-width: 64%"></div>
+            <span>Ratings, owner reports, and index activity.</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="stats" aria-label="Database statistics">
-      <div class="stat">
-        <strong>1,200+</strong>
+      <div class="stat reveal" style="--delay: 80ms">
+        <div class="stat-head">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M6 7v13h12V7"></path><path d="M9 11h6"></path><path d="M9 15h6"></path><path d="M8 4h8l2 3H6Z"></path></svg></span>
+          <strong>1,200+</strong>
+        </div>
         <span>Locks Indexed</span>
       </div>
-      <div class="stat">
-        <strong>300+</strong>
+      <div class="stat reveal" style="--delay: 180ms">
+        <div class="stat-head">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 12h10"></path><path d="M7 16h6"></path><path d="M5 5h14a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H9l-4 3v-3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"></path></svg></span>
+          <strong>300+</strong>
+        </div>
         <span>Community Ratings</span>
       </div>
-      <div class="stat">
-        <strong>Verified</strong>
-        <span>Expert Reviews</span>
+      <div class="stat reveal" style="--delay: 280ms">
+        <div class="stat-head">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v6c0 4.6 3 7.5 7 9 4-1.5 7-4.4 7-9V6Z"></path><path d="m9 12 2 2 4-5"></path></svg></span>
+          <strong>42</strong>
+        </div>
+        <span>Expert Contributors</span>
+      </div>
+      <div class="stat reveal" style="--delay: 380ms">
+        <div class="stat-head">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16"></path><path d="M7 16V8"></path><path d="M12 16V5"></path><path d="M17 16v-6"></path></svg></span>
+          <strong>18</strong>
+        </div>
+        <span>Weekly Updates</span>
       </div>
     </section>
 
-    <section aria-labelledby="featured-title">
-      <div class="section-heading">
+    <section class="activity-strip reveal" aria-label="Recent activity">
+      <div class="activity-track">
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recently reviewed</strong> Placeholder Lock A</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recently added</strong> Placeholder Lock D</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recent rating</strong> 8.1 submitted</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Contributor note</strong> Evidence updated</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recently reviewed</strong> Placeholder Lock A</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recently added</strong> Placeholder Lock D</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Recent rating</strong> 8.1 submitted</div>
+        <div class="activity-item"><span class="activity-dot"></span><strong>Contributor note</strong> Evidence updated</div>
+      </div>
+    </section>
+
+    <section class="comparison-teaser reveal" aria-label="Comparison preview">
+      <div class="comparison-title">
+        <strong>Compare locks side-by-side</strong>
+        <span>Preview comparison</span>
+      </div>
+      <div class="compare-lock">
+        <svg class="mini-lock" viewBox="0 0 64 52" aria-hidden="true">
+          <path d="M22 22V14c0-8 5-13 10-13s10 5 10 13v8"></path>
+          <rect x="16" y="20" width="32" height="24" rx="6"></rect>
+        </svg>
+        <span>Candidate A</span>
+        <strong>Placeholder Lock A</strong>
+        <small>8.9 score</small>
+      </div>
+      <div class="vs">VS</div>
+      <div class="compare-lock">
+        <svg class="mini-lock" viewBox="0 0 64 52" aria-hidden="true">
+          <path d="M18 9v22c0 11 7 18 14 18s14-7 14-18V9"></path>
+          <path d="M14 9h8M42 9h8"></path>
+          <path d="M22 38h20"></path>
+        </svg>
+        <span>Candidate B</span>
+        <strong>Placeholder Lock B</strong>
+        <small>7.7 score</small>
+      </div>
+    </section>
+
+    <section class="featured" aria-labelledby="featured-title">
+      <div class="section-heading reveal">
         <h2 id="featured-title">Featured reviews</h2>
-        <p>Clear, comparable snapshots from a growing public security index.</p>
+        <p>Clear, comparable snapshots from the Lockpicked.org security index.</p>
       </div>
 
       <div class="cards">
-        <article class="card">
+        <article class="card reveal" style="--delay: 80ms">
           <div class="card-top">
-            <h3>ABUS 83/45</h3>
-            <span class="score">Security Score 8.9</span>
+            <div class="card-title">
+              <span class="card-badge">Top Rated Padlock</span>
+              <h3>Placeholder Lock A</h3>
+            </div>
+            <span class="score score-good">
+              <span class="score-value">8.9</span>
+              <span class="sr-only">8.9 padlocks</span>
+            </span>
           </div>
-          <p>Security Score 8.9. A robust interchangeable-core padlock with strong materials and dependable field performance.</p>
-          <a href="#">View Review</a>
+          <div class="lock-thumb" aria-hidden="true">
+            <svg viewBox="0 0 128 86">
+              <path d="M18 14h20M14 70h22M92 15h22M92 70h20"></path>
+              <path d="M39 40V26c0-15 10-25 25-25s25 10 25 25v14"></path>
+              <rect x="28" y="36" width="72" height="42" rx="9"></rect>
+              <path d="M44 53h40"></path>
+              <path d="M44 63h24"></path>
+              <circle cx="83" cy="60" r="5"></circle>
+            </svg>
+          </div>
+          <p>Example high-scoring entry with durable materials, consistent construction, and well-documented review notes.</p>
+          <div class="score-bar" style="--score-width: 89%; color: #496c34" aria-hidden="true"></div>
+          <div class="reviewer-row">
+            <div class="avatars" aria-hidden="true">
+              <span class="avatar" style="--avatar-bg: #dfead8">RK</span>
+              <span class="avatar" style="--avatar-bg: #e8ece9">AM</span>
+              <span class="avatar" style="--avatar-bg: #d9e4e6">VP</span>
+            </div>
+            <small>3 reviewers</small>
+          </div>
+          <a href="#">View Review <span aria-hidden="true">→</span></a>
         </article>
 
-        <article class="card">
+        <article class="card reveal" style="--delay: 180ms">
           <div class="card-top">
-            <h3>Yale Platinum</h3>
-            <span class="score">Security Score 7.7</span>
+            <div class="card-title">
+              <span class="card-badge">Most Reviewed Deadbolt</span>
+              <h3>Placeholder Lock B</h3>
+            </div>
+            <span class="score score-neutral">
+              <span class="score-value">7.7</span>
+              <span class="sr-only">7.7 padlocks</span>
+            </span>
           </div>
-          <p>Security Score 7.7. A polished residential option balancing everyday usability with solid protection standards.</p>
-          <a href="#">View Review</a>
+          <div class="lock-thumb" aria-hidden="true">
+            <svg viewBox="0 0 128 86">
+              <circle cx="64" cy="43" r="31"></circle>
+              <circle cx="64" cy="43" r="16"></circle>
+              <path d="M64 43h28"></path>
+              <path d="M64 43 52 31"></path>
+              <path d="M96 43h18"></path>
+              <path d="M14 43h18"></path>
+            </svg>
+          </div>
+          <p>Example mid-to-high scoring entry balancing everyday usability with a clear security profile.</p>
+          <div class="score-bar" style="--score-width: 77%; color: #816329" aria-hidden="true"></div>
+          <div class="reviewer-row">
+            <div class="avatars" aria-hidden="true">
+              <span class="avatar" style="--avatar-bg: #eee3c9">MS</span>
+              <span class="avatar" style="--avatar-bg: #e8ece9">JL</span>
+            </div>
+            <small>2 reviewers</small>
+          </div>
+          <a href="#">View Review <span aria-hidden="true">→</span></a>
         </article>
 
-        <article class="card">
+        <article class="card reveal" style="--delay: 280ms">
           <div class="card-top">
-            <h3>Master Lock 140</h3>
-            <span class="score">Security Score 4.2</span>
+            <div class="card-title">
+              <span class="card-badge">Recently Added Smart Lock</span>
+              <h3>Placeholder Lock C</h3>
+            </div>
+            <span class="score score-bad">
+              <span class="score-value">4.2</span>
+              <span class="sr-only">4.2 padlocks</span>
+            </span>
           </div>
-          <p>Security Score 4.2. A common lightweight padlock best suited for low-risk storage and basic deterrence.</p>
-          <a href="#">View Review</a>
+          <div class="lock-thumb" aria-hidden="true">
+            <svg viewBox="0 0 128 86">
+              <rect x="38" y="10" width="52" height="66" rx="12"></rect>
+              <path d="M52 24h24"></path>
+              <circle cx="64" cy="43" r="9"></circle>
+              <path d="M58 61h12"></path>
+              <path d="M94 26h14M94 60h14M20 26h14M20 60h14"></path>
+            </svg>
+          </div>
+          <p>Example lower-scoring entry shown as a neutral placeholder for comparison across common categories.</p>
+          <div class="score-bar" style="--score-width: 42%; color: #8f3e35" aria-hidden="true"></div>
+          <div class="reviewer-row">
+            <div class="avatars" aria-hidden="true">
+              <span class="avatar" style="--avatar-bg: #ead9d6">NT</span>
+              <span class="avatar" style="--avatar-bg: #e8ece9">QF</span>
+            </div>
+            <small>2 reviewers</small>
+          </div>
+          <a href="#">View Review <span aria-hidden="true">→</span></a>
         </article>
       </div>
     </section>
 
-    <section class="cta">
-      <h2>Help build the public lock security index.</h2>
-      <a class="btn btn-green" href="#">Submit a Lock</a>
+    <section class="cta reveal">
+      <div class="cta-copy">
+        <h2>Help build the public lock security index.</h2>
+        <p>Contribute to Lockpicked.org with clear product details, ratings, and expert-reviewed hardware data.</p>
+      </div>
+      <a class="btn btn-green" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+        Submit a Lock
+      </a>
     </section>
   </main>
 
-  <footer>
-    Lockpicked.org
+  <footer class="page">
+    <span><strong>Lockpicked.org</strong></span>
+    <span>Public lock security data, presented calmly and clearly.</span>
   </footer>
+
+  <script>
+    const typed = document.querySelector(".typed");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealItems = document.querySelectorAll(".reveal");
+    const hero = document.querySelector(".hero");
+    const heroContent = document.querySelector(".hero-content");
+    const loader = document.querySelector(".loader");
+
+    const startHeroTyping = () => {
+      if (!typed || reduceMotion) {
+        return;
+      }
+
+      const text = typed.dataset.text || typed.textContent;
+      typed.textContent = "";
+
+      let index = 0;
+      const write = () => {
+        typed.textContent = text.slice(0, index);
+        index += 1;
+
+        if (index <= text.length) {
+          window.setTimeout(write, 54);
+        }
+      };
+
+      window.setTimeout(write, 420);
+    };
+
+    const startScrollAnimations = () => {
+      if (reduceMotion) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+        return;
+      }
+
+      const updateHeroUnload = () => {
+        if (!hero || !heroContent) {
+          return;
+        }
+
+        const rect = hero.getBoundingClientRect();
+        heroContent.classList.toggle("is-unloading", rect.bottom < window.innerHeight * 0.58);
+      };
+
+      const updateRevealState = (item, isVisible) => {
+        const rect = item.getBoundingClientRect();
+
+        item.classList.toggle("is-visible", isVisible);
+        item.classList.toggle("is-unloading", !isVisible && rect.bottom < 72);
+      };
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => updateRevealState(entry.target, entry.isIntersecting));
+      }, {
+        root: null,
+        threshold: 0.18,
+        rootMargin: "-8% 0px -10% 0px"
+      });
+
+      revealItems.forEach((item) => {
+        updateRevealState(item, false);
+        revealObserver.observe(item);
+      });
+
+      updateHeroUnload();
+      window.addEventListener("scroll", updateHeroUnload, { passive: true });
+      window.addEventListener("resize", updateHeroUnload);
+    };
+
+    const finishLoading = () => {
+      if (!document.body.classList.contains("is-loading")) {
+        return;
+      }
+
+      document.body.classList.remove("is-loading");
+      loader?.classList.add("is-hidden");
+      startHeroTyping();
+      startScrollAnimations();
+    };
+
+    if (reduceMotion) {
+      finishLoading();
+    } else {
+      const written = document.querySelector(".loader-written");
+      written?.addEventListener("animationend", () => {
+        requestAnimationFrame(finishLoading);
+      }, { once: true });
+      window.setTimeout(finishLoading, 1150);
+    }
+  </script>
 </body>
 </html>
